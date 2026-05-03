@@ -43,6 +43,20 @@ GitHub Pages の URLは通常 `https://<ユーザー名>.github.io/<リポジト
 
 任意の Repository variables: `SHEET_NAME`（デフォルト `Queue`）。
 
+## GitHub へ載せる（初回）
+
+このマシンでは **GitHub CLI にログインしていない**ため、こちらからリモート作成・push はできません。あなたのターミナルで **一度だけ** ログインし、次を実行してください。
+
+```bash
+gh auth login -h github.com -p https -w
+cd ~/far-discord-delivery
+./scripts/github-setup.sh
+```
+
+`github-setup.sh` は `far-discord-delivery` リポジトリの作成（または既存への接続）、`main` の push、可能なら **Pages（workflow）** の有効化まで行い、続けて `gh secret set` の例を表示します。
+
+スプレッドシートの列見本は `docs/queue-template.csv` を Google シートにインポートして使えます。
+
 ## ローカルでの手動実行
 
 ```bash
