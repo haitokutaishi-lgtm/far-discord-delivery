@@ -48,6 +48,46 @@ def parse_date_jst(s: str) -> datetime | None:
     return None
 
 
+def extract_service_account_json(raw: str) -> dict[str, Any]:
+    """
+    GitHub Secret に JSON の前後に BOM・空白・誤って連結した文字が付くことがあるため、
+    先頭のオブジェクト1つだけを抜き出してパースする。
+    """
+    s = (raw or "").strip().lstrip("\ufeff")
+    if not s:
+        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON is empty")
+
+    start = s.find("{")
+    if start == -1:
+        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON に { がありません。JSON ファイルの中身だけを貼り直してください。")
+
+    depth = 0
+    in_string = False
+    escape = False
+    for i in range(start, len(s)):
+        c = s[i]
+        if in_string:
+            if escape:
+                escape = False
+            elif c == "\\":
+                escape = True
+            elif c == '"':
+                in_string = False
+            continue
+        if c == '"':
+            in_string = True
+            continue
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                blob = s[start : i + 1]
+                return json.loads(blob)
+
+    raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON の JSON が閉じていません。ファイル全文を貼り直してください。")
+
+
 def with_utm(url: str, slug: str) -> str:
     if not url or "utm_" in url:
         return url
@@ -69,7 +109,7 @@ def get_sheets_service():
     if cred_path and os.path.isfile(cred_path):
         creds = service_account.Credentials.from_service_account_file(cred_path, scopes=SCOPES)
     elif raw:
-        info = json.loads(raw)
+        info = extract_service_account_json(raw)
         creds = service_account.Credentials.from_service_account_info(info, scopes=SCOPES)
     else:
         raise SystemExit("Set GOOGLE_APPLICATION_CREDENTIALS or GOOGLE_SERVICE_ACCOUNT_JSON")

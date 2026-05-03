@@ -57,6 +57,10 @@ cd ~/far-discord-delivery
 
 スプレッドシートの列見本は `docs/queue-template.csv` を Google シートにインポートして使えます。
 
+## トラブル: `JSONDecodeError` / `Extra data`
+
+`GOOGLE_SERVICE_ACCOUNT_JSON` に **JSON 以外の文字が前後についている**と失敗します。GitHub の Secret を開き、**`{` から `}` まで（サービスアカウント JSON 1ファイル分）だけ**に差し替えてください。リポジトリの `deliver.py` は先頭の JSON オブジェクト1つを自動で切り出すので、軽い混入は吸収します。
+
 ## ローカルでの手動実行
 
 ```bash
