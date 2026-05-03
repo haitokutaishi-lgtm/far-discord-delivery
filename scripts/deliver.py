@@ -6,6 +6,7 @@ Pick the next approved row from Google Sheets and post theme + summary + URL to 
 from __future__ import annotations
 
 import base64
+import binascii
 import json
 import os
 import sys
@@ -109,13 +110,30 @@ def with_utm(url: str, slug: str) -> str:
     return urllib.parse.urlunparse(parsed._replace(query=new_query))
 
 
+def _try_decode_b64(s: str) -> str | None:
+    """If s looks like base64 (no '{'), try decode to UTF-8 JSON text."""
+    t = s.strip()
+    if not t or "{" in t:
+        return None
+    if len(t) < 80:
+        return None
+    try:
+        out = base64.b64decode(t, validate=True).decode("utf-8")
+    except (ValueError, binascii.Error, UnicodeDecodeError):
+        try:
+            out = base64.b64decode(t).decode("utf-8")
+        except (ValueError, binascii.Error, UnicodeDecodeError):
+            return None
+    return out if "{" in out else None
+
+
 def load_service_account_raw() -> str:
-    """Plain JSON secret, or Base64 one-liner in GOOGLE_SERVICE_ACCOUNT_JSON_B64 (recommended for multiline)."""
+    """Plain JSON secret, Base64 in *_B64 secret, or Base64 mistakenly pasted into GOOGLE_SERVICE_ACCOUNT_JSON."""
     b64 = (os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON_B64") or "").strip()
     if b64:
         try:
             return base64.b64decode(b64).decode("utf-8")
-        except (ValueError, UnicodeDecodeError) as e:
+        except (ValueError, binascii.Error, UnicodeDecodeError) as e:
             raise SystemExit(f"GOOGLE_SERVICE_ACCOUNT_JSON_B64 のデコードに失敗しました: {e}") from e
 
     raw = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON") or ""
@@ -125,6 +143,9 @@ def load_service_account_raw() -> str:
             "リポジトリ「far-discord-delivery」の Settings → Secrets and variables → Actions の Repository secrets に、"
             "名前 GOOGLE_SERVICE_ACCOUNT_JSON で貼り直すか、README の Base64 手順で GOOGLE_SERVICE_ACCOUNT_JSON_B64 を追加してください。"
         )
+    decoded = _try_decode_b64(raw)
+    if decoded is not None:
+        return decoded
     return raw
 
 
