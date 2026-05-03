@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【FAR】収益認識の5ステップ（ざっくり地図）</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --coach-primary: hsl(200, 70%, 38%);
+      --coach-accent: hsl(38, 92%, 45%);
+      --coach-gradient: linear-gradient(90deg, hsl(200, 70%, 38%), hsl(168, 55%, 38%));
+    }
+    body { font-family: "Noto Sans JP", sans-serif; }
+    .header-gradient { background: var(--coach-gradient); }
+    .section-card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .term-explain {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-left: 4px solid #16a34a;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .char-bubble { position: relative; padding: 1.5rem; border-radius: 1rem; margin-left: 0.5rem; }
+    .char-bubble::before {
+      content: ""; position: absolute; left: -10px; top: 20px; border-width: 10px; border-style: solid;
+    }
+    .student-bubble {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 2px solid #ea580c;
+    }
+    .student-bubble::before { border-color: transparent #ea580c transparent transparent; }
+    .coach-bubble {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 2px solid #2563eb;
+    }
+    .coach-bubble::before { border-color: transparent #2563eb transparent transparent; }
+    .quote-block {
+      background: #f8fafc;
+      border-left: 4px solid #64748b;
+      padding: 1rem 1.25rem;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+  </style>
+</head>
+<body class="bg-slate-50">
+  <header class="header-gradient text-white py-8">
+    <div class="max-w-4xl mx-auto px-4">
+      <p class="text-sm uppercase tracking-wide opacity-90">FAR / Revenue Recognition（デモ図解）</p>
+      <h1 class="text-3xl md:text-4xl font-bold mt-2">収益認識の5ステップは「順番のチェックリスト」</h1>
+      <p class="mt-2 text-lg opacity-90">試験では「どのステップで詰まるか」を問われる。全体の地図を先に固める。</p>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <section class="section-card">
+      <div class="flex items-center gap-2 mb-4">
+        <i data-lucide="map" class="w-6 h-6 text-sky-700"></i>
+        <h2 class="text-xl font-bold text-slate-800">このページのゴール</h2>
+      </div>
+      <p class="text-slate-700 leading-relaxed">
+        5ステップの名前と順番を口で言える。各ステップが「何を決める場所か」を一言で説明できる。
+      </p>
+    </section>
+
+    <section class="section-card">
+      <div class="flex items-center gap-2 mb-4">
+        <i data-lucide="list-ordered" class="w-6 h-6 text-sky-700"></i>
+        <h2 class="text-xl font-bold text-slate-800">まず覚える3つ</h2>
+      </div>
+      <ol class="list-decimal list-inside space-y-2 text-slate-700">
+        <li><span class="font-semibold">順番固定</span>：Step1→5は「前に飛ばす」思考だと事故る。</li>
+        <li><span class="font-semibold">Step2が分水嶺</span>：履行義務の特定がズレると、後の金額配分も全部ズレる。</li>
+        <li><span class="font-semibold">単価は「約束した対価」ベース</span>（変動対価・制限は別論点）。</li>
+      </ol>
+    </section>
+
+    <section class="section-card">
+      <div class="flex items-start gap-4 mb-6">
+        <div class="w-14 h-14 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 border-2 border-orange-300">
+          <i data-lucide="user" class="w-7 h-7 text-orange-700"></i>
+        </div>
+        <div class="char-bubble student-bubble flex-1">
+          <p class="text-sm font-bold text-orange-800 mb-1">受講生</p>
+          <p class="text-slate-800">5ステップって、暗記ワードが多くて頭から抜ける……。</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4 mb-6">
+        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 border-2 border-blue-300">
+          <i data-lucide="graduation-cap" class="w-7 h-7 text-blue-800"></i>
+        </div>
+        <div class="char-bubble coach-bubble flex-1">
+          <p class="text-sm font-bold text-blue-800 mb-1">コーチ</p>
+          <p class="text-slate-800">
+            たとえ話でいうと、料理で「献立を決める→買い物→下準備→調理→盛り付け」の順に相当する。
+            「調理」だけ練習しても、献立がズレたら全部ズレるのと同じで、<span class="font-semibold">Step2（履行義務）</span>が献立決めだと思っておくと強い。
+          </p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4">
+        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 border-2 border-blue-300">
+          <i data-lucide="graduation-cap" class="w-7 h-7 text-blue-800"></i>
+        </div>
+        <div class="char-bubble coach-bubble flex-1">
+          <p class="text-sm font-bold text-blue-800 mb-1">コーチ</p>
+          <p class="text-slate-800">
+            もう一つのたとえ：<span class="font-semibold">駅の乗り換え</span>。Step2で「どの路線に乗るか」を間違えると、以降の降り場（振替時期）も全部間違う。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <div class="flex items-center gap-2 mb-4">
+        <i data-lucide="route" class="w-6 h-6 text-sky-700"></i>
+        <h2 class="text-xl font-bold text-slate-800">5ステップの地図（超要約）</h2>
+      </div>
+      <div class="grid gap-3 md:grid-cols-2">
+        <div class="rounded-xl border border-slate-200 bg-white p-4">
+          <div class="flex items-center gap-2 font-bold text-slate-800"><span class="text-sky-700">1</span> 契約の識別</div>
+          <p class="text-sm text-slate-600 mt-1">契約が「成立しているか／まとめられるか」。</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-4">
+          <div class="flex items-center gap-2 font-bold text-slate-800"><span class="text-sky-700">2</span> 履行義務の特定</div>
+          <p class="text-sm text-slate-600 mt-1">「何を約束の単位として届けるか」を分解する。</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-4">
+          <div class="flex items-center gap-2 font-bold text-slate-800"><span class="text-sky-700">3</span> 取引価格</div>
+          <p class="text-sm text-slate-600 mt-1">受け取ると見込む対価（変動対価・制限はここで絡む）。</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-4">
+          <div class="flex items-center gap-2 font-bold text-slate-800"><span class="text-sky-700">4</span> 取引価格の配分</div>
+          <p class="text-sm text-slate-600 mt-1">履行義務ごとに対価を割り付ける。</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-white p-4 md:col-span-2">
+          <div class="flex items-center gap-2 font-bold text-slate-800"><span class="text-sky-700">5</span> 収益認識（履行）</div>
+          <p class="text-sm text-slate-600 mt-1">コントロール移転のタイミングで認識（期間／時点）。</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="term-explain">
+      <div class="flex items-center gap-2 mb-2">
+        <i data-lucide="book-open" class="w-5 h-5 text-green-700"></i>
+        <span class="font-bold text-green-900">用語を一言で</span>
+      </div>
+      <p class="text-slate-800"><span class="font-semibold">履行義務（Performance obligation）</span>：顧客に「届ける約束」の単位。ここがズレると全部ズレる重心。</p>
+    </div>
+
+    <section class="section-card">
+      <div class="flex items-center gap-2 mb-3">
+        <i data-lucide="target" class="w-5 h-5 text-blue-600"></i>
+        <span class="font-bold text-slate-700">条文・長文を読むときの見方（例）</span>
+      </div>
+      <ul class="list-disc list-inside text-slate-600 ml-1 space-y-1 mb-4">
+        <li>主語は「誰の」履行義務か（結合・分割の話はどこで出るか）</li>
+        <li>変動対価・返金・制限は Step3 まわりか、認識後調整か</li>
+      </ul>
+      <div class="quote-block text-slate-700">
+        （教材・問題集の該当段落をここに貼ると学習に直結。デモなのでプレースホルダ。）
+      </div>
+    </section>
+
+    <section class="section-card">
+      <div class="flex items-center gap-2 mb-4">
+        <i data-lucide="check-circle" class="w-6 h-6 text-emerald-700"></i>
+        <h2 class="text-xl font-bold text-slate-800">1分で総復習</h2>
+      </div>
+      <p class="text-slate-700 leading-relaxed">
+        契約→履行義務→対価→配分→認識。試験では「どのステップの論点か」を先に当てにいくと読解が速い。
+      </p>
+    </section>
+  </main>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
