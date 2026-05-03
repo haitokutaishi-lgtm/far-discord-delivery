@@ -36,6 +36,7 @@ GitHub Pages の URLは通常 `https://<ユーザー名>.github.io/<リポジト
 |------|------|
 | `GOOGLE_SPREADSHEET_ID` | スプレッドシート URL の `/d/` と `/edit` の間の ID |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | サービスアカウント JSON の全文（1行でも可） |
+| `GOOGLE_SERVICE_ACCOUNT_JSON_B64` | **任意だが推奨**: 上記 JSON ファイルを **Base64 で1行**にしたもの（長文が Actions に渡りやすい） |
 | `DISCORD_WEBHOOK_URL` | 配信先 Incoming Webhook の URL（**再発行した新しいもの**） |
 | `DISCORD_ERROR_WEBHOOK_URL` | 任意。失敗時に投稿する別 Webhook |
 | `DISCORD_THREAD_ID` | 任意。スレッド内に投稿する場合のスレッド ID（18桁前後の数値） |
@@ -56,6 +57,26 @@ cd ~/far-discord-delivery
 `github-setup.sh` は `far-discord-delivery` リポジトリの作成（または既存への接続）、`main` の push、可能なら **Pages（workflow）** の有効化まで行い、続けて `gh secret set` の例を表示します。
 
 スプレッドシートの列見本は `docs/queue-template.csv` を Google シートにインポートして使えます。
+
+## トラブル: Secret に `{` がない／JSON が効かない
+
+GitHub の **Repository secrets** で、リポジトリ名が **`haitokutaishi-lgtm/far-discord-delivery`** になっているか、Secret 名が **`GOOGLE_SERVICE_ACCOUNT_JSON`** と **完全一致**か確認してください（別リポジトリ・Environment の Secrets に入れていると空になります）。
+
+**Base64 で登録する（Mac ターミナル例）:**
+
+```bash
+cd ~/Downloads   # json がある場所に合わせる
+base64 -i your-service-account.json | tr -d '\n' | pbcopy
+# クリップボードの1行を GitHub → New secret → 名前 GOOGLE_SERVICE_ACCOUNT_JSON_B64 で保存
+```
+
+または:
+
+```bash
+gh secret set GOOGLE_SERVICE_ACCOUNT_JSON_B64 -b"$(base64 -i your-service-account.json | tr -d '\n')" -R haitokutaishi-lgtm/far-discord-delivery
+```
+
+`GOOGLE_SERVICE_ACCOUNT_JSON_B64` を設定すると、**プレーンの `GOOGLE_SERVICE_ACCOUNT_JSON` は空でも動きます**（B64 が優先）。
 
 ## トラブル: `JSONDecodeError` / `Extra data`
 

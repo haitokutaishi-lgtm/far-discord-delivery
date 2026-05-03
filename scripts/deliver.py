@@ -5,6 +5,7 @@ Pick the next approved row from Google Sheets and post theme + summary + URL to 
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import sys
@@ -59,7 +60,12 @@ def extract_service_account_json(raw: str) -> dict[str, Any]:
 
     start = s.find("{")
     if start == -1:
-        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON に { がありません。JSON ファイルの中身だけを貼り直してください。")
+        raise ValueError(
+            "GOOGLE_SERVICE_ACCOUNT_JSON に { がありません。"
+            f"（この Secret に入っている文字数: {len(s)}）"
+            " サービスアカウントの .json をテキストで開き、先頭が { になるよう全文を貼り直してください。"
+            " うまくいかない場合は README のとおり GOOGLE_SERVICE_ACCOUNT_JSON_B64（Base64 1行）を使ってください。"
+        )
 
     depth = 0
     in_string = False
@@ -103,16 +109,37 @@ def with_utm(url: str, slug: str) -> str:
     return urllib.parse.urlunparse(parsed._replace(query=new_query))
 
 
+def load_service_account_raw() -> str:
+    """Plain JSON secret, or Base64 one-liner in GOOGLE_SERVICE_ACCOUNT_JSON_B64 (recommended for multiline)."""
+    b64 = (os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON_B64") or "").strip()
+    if b64:
+        try:
+            return base64.b64decode(b64).decode("utf-8")
+        except (ValueError, UnicodeDecodeError) as e:
+            raise SystemExit(f"GOOGLE_SERVICE_ACCOUNT_JSON_B64 のデコードに失敗しました: {e}") from e
+
+    raw = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON") or ""
+    if not raw.strip():
+        raise SystemExit(
+            "GOOGLE_SERVICE_ACCOUNT_JSON も GOOGLE_SERVICE_ACCOUNT_JSON_B64 も使えません（JSON が空）。"
+            "リポジトリ「far-discord-delivery」の Settings → Secrets and variables → Actions の Repository secrets に、"
+            "名前 GOOGLE_SERVICE_ACCOUNT_JSON で貼り直すか、README の Base64 手順で GOOGLE_SERVICE_ACCOUNT_JSON_B64 を追加してください。"
+        )
+    return raw
+
+
 def get_sheets_service():
     cred_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
-    raw = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    raw = load_service_account_raw()
     if cred_path and os.path.isfile(cred_path):
         creds = service_account.Credentials.from_service_account_file(cred_path, scopes=SCOPES)
     elif raw:
         info = extract_service_account_json(raw)
         creds = service_account.Credentials.from_service_account_info(info, scopes=SCOPES)
     else:
-        raise SystemExit("Set GOOGLE_APPLICATION_CREDENTIALS or GOOGLE_SERVICE_ACCOUNT_JSON")
+        raise SystemExit(
+            "GOOGLE_APPLICATION_CREDENTIALS か GOOGLE_SERVICE_ACCOUNT_JSON / GOOGLE_SERVICE_ACCOUNT_JSON_B64 が必要です。"
+        )
 
     return build("sheets", "v4", credentials=creds, cache_discovery=False)
 
