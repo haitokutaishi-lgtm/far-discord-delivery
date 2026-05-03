@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "far-mc-trends",
+    "title": "【FAR】MCの傾向と頻出分野（地図）",
+    "summary_hint": "MCで狙われやすい論点の見張り台を一枚に（参照：自社テキスト 目次・MC傾向）",
+    "source_note": "目次「1.FAR MCの傾向と頻出分野」相当"
+  },
+  {
+    "slug": "fair-value",
+    "title": "【FAR】公正価値（FV）の考え方",
+    "summary_hint": "いつLEVEL何を見るか、優先順位のメモ（参照：自社テキスト MCまとめノート）",
+    "source_note": "MCまとめノート「公正価値」相当"
+  },
+  {
+    "slug": "cash-equivalents",
+    "title": "【FAR】現金及び現金同等物",
+    "summary_hint": "含む／含まないの線引きと典型パターン（参照：自社テキスト）",
+    "source_note": "MCまとめノート「現金及び現金同等物」相当"
+  },
+  {
+    "slug": "ppe",
+    "title": "【FAR】固定資産（取得・改良・除却の筋）",
+    "summary_hint": "資本化の見極めと除却損益までの流れ（参照：自社テキスト）",
+    "source_note": "MCまとめノート「固定資産」相当"
+  },
+  {
+    "slug": "bonds",
+    "title": "【FAR】社債（割引・プレミアム・利払い）",
+    "summary_hint": "実効利子法のイメージと定番仕訳の型（参照：自社テキスト）",
+    "source_note": "MCまとめノート「社債」相当"
+  },
+  {
+    "slug": "leases",
+    "title": "【FAR】リース（認識と分類の芯）",
+    "summary_hint": "利用者／貸手の見分けと認識の入口（参照：自社テキスト）",
+    "source_note": "MCまとめノート「リース」相当"
+  },
+  {
+    "slug": "investments",
+    "title": "【FAR】有価証券（分類と損益の行き先）",
+    "summary_hint": "FV-OCI・摊銷・減損の整理（参照：自社テキスト）",
+    "source_note": "MCまとめノート「有価証券」相当"
+  },
+  {
+    "slug": "equity",
+    "title": "【FAR】資本取引（発行・自己株・配当）",
+    "summary_hint": "普通株・優先株・剰余金の典型パターン（参照：自社テキスト）",
+    "source_note": "MCまとめノート「資本取引」相当"
+  },
+  {
+    "slug": "income-taxes",
+    "title": "【FAR】税効果会計（一時差異の芯）",
+    "summary_hint": "DTL/DTAと評価性引当の入口（参照：自社テキスト）",
+    "source_note": "MCまとめノート「税効果会計」相当"
+  },
+  {
+    "slug": "accounting-changes",
+    "title": "【FAR】会計上の変更・誤謬の修正",
+    "summary_hint": "追溯・当期・開示の切り分けの型（参照：自社テキスト）",
+    "source_note": "MCまとめノート「会計上の変更、誤謬の修正」相当"
+  },
+  {
+    "slug": "sec-filings",
+    "title": "【FAR】SEC提出書類（出題の芯だけ）",
+    "summary_hint": "どの書類に何が載るかの見取り図（参照：自社テキスト）",
+    "source_note": "MCまとめノート「SEC提出書類」相当"
+  },
+  {
+    "slug": "special-framework",
+    "title": "【FAR】特別目的フレームワーク",
+    "summary_hint": "試験で問われやすい境界の整理（参照：自社テキスト）",
+    "source_note": "MCまとめノート「特別目的フレームワーク」相当"
+  },
+  {
+    "slug": "nfp",
+    "title": "【FAR】非政府・非営利組織会計",
+    "summary_hint": "寄付・制限付・表示の入口（参照：自社テキスト）",
+    "source_note": "MCまとめノート「非政府・非営利組織会計」相当"
+  },
+  {
+    "slug": "governmental",
+    "title": "【FAR】政府会計（基礎の地図）",
+    "summary_hint": "ファンド種別と典型論点の入口（参照：自社テキスト）",
+    "source_note": "MCまとめノート「政府会計」相当"
+  },
+  {
+    "slug": "bank-reconciliation",
+    "title": "【FAR】銀行勘定調整（加減算の整理）",
+    "summary_hint": "帳簿側／銀行側の見分けと典型項目（参照：自社テキスト 難解①）",
+    "source_note": "難解論点解説① 銀行勘定調整 相当"
+  },
+  {
+    "slug": "contingencies-subsequent",
+    "title": "【FAR】偶発事象・後発事象",
+    "summary_hint": "計上・開示と開示後／修正の切り分け（参照：自社テキスト 難解②）",
+    "source_note": "難解論点解説② 偶発事象・後発事象 相当"
+  },
+  {
+    "slug": "lcm-inventory",
+    "title": "【FAR】低価法（在庫評価）",
+    "summary_hint": "評価方法別の低価の考え方（参照：自社テキスト 難解③）",
+    "source_note": "難解論点解説③ 低価法 相当"
+  },
+  {
+    "slug": "impairment",
+    "title": "【FAR】固定資産減損",
+    "summary_hint": "兆候→計測→認識の流れを一枚に（参照：自社テキスト 難解④）",
+    "source_note": "難解論点解説④ 固定資産減損 相当"
+  },
+  {
+    "slug": "indirect-cf",
+    "title": "【FAR】間接法キャッシュフロー（営業CF）",
+    "summary_hint": "調整項目の符号とよくある落とし穴（参照：自社テキスト 難解⑤）",
+    "source_note": "難解論点解説⑤ 間接キャッシュフロー計算書 相当"
+  },
+  {
+    "slug": "consolidation",
+    "title": "【FAR】連結会計（消去の地図）",
+    "summary_hint": "投資と資本・未実現利益・のれんの入口（参照：自社テキスト 難解⑥）",
+    "source_note": "難解論点解説⑥ 連結会計 相当"
+  }
+]

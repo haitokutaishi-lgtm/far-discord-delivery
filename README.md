@@ -12,8 +12,32 @@ Google スプレッドシートのキューから、承認済みの次の1件を
 - `.github/workflows/far-deliver.yml` — 配信スケジュール（UTC に換算）
 - `.github/workflows/pages.yml` — `docs/` を GitHub Pages に公開（図解 HTML の置き場）
 - `docs/far/` — 図解 HTML をコミット（例: `docs/far/lease-modifications.html`）
+- `data/far_themes.json` — 参照テキストの目次・論点に相当する **テーマ一覧（論点名のみ）**
+- `data/far_themes_used.json` — ランダム選定で「もう出した」スラッグの記録（任意でコミット）
+- `scripts/pick_theme.py` — **未使用テーマからランダムに1件**選び、シート用の案内を表示
 
 GitHub Pages の URLは通常 `https://<ユーザー名>.github.io/<リポジトリ名>/far/<ファイル名>` です（リポジトリ設定で Pages を有効化後）。
+
+### 図解テーマの運用（PDF参照・ランダム・承認）
+
+1. **論点リスト**は `data/far_themes.json`（手持ちテキストの目次・見出しに**相当する論点名**だけ。本文は転載しない）。
+2. 配信のたびにテーマを決める:
+
+```bash
+python3 scripts/pick_theme.py --pick
+```
+
+3. 表示された **slug** に合わせて、**オリジナル**の図解 HTML を作成（diagram-exam-coach 流のレイアウトでよい）。`docs/far/<slug>.html` に保存して push、または Netlify 等に載せる。
+4. Google シート **Queue** に `title` / `summary` / `public_url` を入力し、`status` を **`approved`**、`sent_at` は空。必要なら事前確認のうえ承認。
+5. Discord 配信後に使用済みを記録（次回のランダムから外す）:
+
+```bash
+python3 scripts/pick_theme.py --mark-used <slug>
+```
+
+全件使い切ったら `python3 scripts/pick_theme.py --reset-used` または `--pick --allow-repeat`。
+
+一覧だけ見る: `python3 scripts/pick_theme.py --list`
 
 ## Google スプレッドシート
 
