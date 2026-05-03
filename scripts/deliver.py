@@ -74,6 +74,10 @@ def extract_service_account_json(raw: str) -> dict[str, Any]:
             pass
 
     start = s.find("{")
+    if start == -1 and '"type"' in s and '"private_key"' in s:
+        # 先頭の `{` だけコピー漏れしたサービスアカウント JSON への救済
+        s = "{" + s.lstrip()
+        start = 0
     if start == -1:
         head = s[:48].replace("\n", "\\n").replace("\r", "\\r")
         raise ValueError(
