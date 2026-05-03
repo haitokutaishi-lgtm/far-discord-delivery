@@ -56,6 +56,9 @@ def extract_service_account_json(raw: str) -> dict[str, Any]:
     先頭のオブジェクト1つだけを抜き出してパースする。
     """
     s = (raw or "").strip().lstrip("\ufeff")
+    # 全角ブレースや不可視文字だけ壊れているケースを正規化
+    s = s.replace("\uff5b", "{").replace("\uff5d", "}")
+    s = s.replace("\u201c", '"').replace("\u201d", '"')
     if not s:
         raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON is empty")
 
@@ -111,8 +114,8 @@ def with_utm(url: str, slug: str) -> str:
 
 
 def _try_decode_b64(s: str) -> str | None:
-    """If s looks like base64 (no '{'), try decode to UTF-8 JSON text."""
-    t = s.strip()
+    """If s looks like base64 (no ASCII '{'), try decode to UTF-8 JSON text."""
+    t = "".join(s.strip().split())  # drop newlines/spaces often added when pasting b64
     if not t or "{" in t:
         return None
     if len(t) < 80:
