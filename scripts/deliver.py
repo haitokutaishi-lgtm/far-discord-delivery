@@ -62,13 +62,25 @@ def extract_service_account_json(raw: str) -> dict[str, Any]:
     if not s:
         raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON is empty")
 
+    # URL エンコードされた JSON（%7B ...）や、JSON が1つの文字列として二重に格納されているケース
+    if "%7B" in s or "%22" in s:
+        s = urllib.parse.unquote(s)
+    if len(s) >= 2 and s[0] == '"' and s.rstrip().endswith('"'):
+        try:
+            inner = json.loads(s)
+            if isinstance(inner, str) and "{" in inner:
+                s = inner.strip()
+        except json.JSONDecodeError:
+            pass
+
     start = s.find("{")
     if start == -1:
+        head = s[:48].replace("\n", "\\n").replace("\r", "\\r")
         raise ValueError(
-            "GOOGLE_SERVICE_ACCOUNT_JSON に { がありません。"
-            f"（この Secret に入っている文字数: {len(s)}）"
-            " サービスアカウントの .json をテキストで開き、先頭が { になるよう全文を貼り直してください。"
-            " うまくいかない場合は README のとおり GOOGLE_SERVICE_ACCOUNT_JSON_B64（Base64 1行）を使ってください。"
+            "GOOGLE_SERVICE_ACCOUNT_JSON に ASCII の { がありません。"
+            f"（文字数: {len(s)}、先頭付近 repr: {head!r}）"
+            " Google Cloud から落とした .json をテキストで開き、先頭が {{ の1ファイルをそのまま貼るか、"
+            "README の GOOGLE_SERVICE_ACCOUNT_JSON_B64（Base64 1行）を使ってください。"
         )
 
     depth = 0
