@@ -87,10 +87,23 @@ def extract_service_account_json(raw: str) -> dict[str, Any]:
             "README の GOOGLE_SERVICE_ACCOUNT_JSON_B64（Base64 1行）を使ってください。"
         )
 
-    try:
-        return json.loads(s[start:] if start > 0 else s)
-    except json.JSONDecodeError:
-        pass
+    chunk = s[start:] if start > 0 else s
+    for blob in (chunk, chunk.rstrip()):
+        last = blob.rfind("}")
+        if last != -1 and last >= 0:
+            try:
+                return json.loads(blob[: last + 1])
+            except json.JSONDecodeError:
+                pass
+        for extra in range(0, 4):
+            try:
+                return json.loads(blob + ("}" * extra))
+            except json.JSONDecodeError:
+                continue
+        try:
+            return json.loads(blob)
+        except json.JSONDecodeError:
+            pass
 
     depth = 0
     in_string = False
